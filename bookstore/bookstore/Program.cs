@@ -1,5 +1,9 @@
 using bookstore.Helpers;
 using bookstore.Models;
+using bookstore.Repositories.BookRepository;
+using bookstore.Repositories.BorrowerBooksRepository;
+using bookstore.Repositories.BorrowerRepository;
+using bookstore.UnitOfWorks;
 using Microsoft.EntityFrameworkCore;
 using System;
 
@@ -18,6 +22,14 @@ namespace bookstore
             builder.Services.AddDbContext<AppDbContext>(
     options => options.UseLazyLoadingProxies().UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"))
             );
+
+            // Repository layer injection
+            builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
+            builder.Services.AddScoped<IBookRepository, BookRepository>();
+            builder.Services.AddScoped<IBorrowerRepository, BorrowerRepository>();
+            builder.Services.AddScoped<IBorrowerBooksRepository, BorrowerBooksRepository>();
+
+
 
             var app = builder.Build();
 

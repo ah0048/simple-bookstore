@@ -1,7 +1,9 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using Microsoft.EntityFrameworkCore;
+using System.ComponentModel.DataAnnotations;
 
 namespace bookstore.Models
 {
+    [Index(nameof(Name), IsUnique = true)]
     public class Borrower
     {
         public int Id { get; set; }
