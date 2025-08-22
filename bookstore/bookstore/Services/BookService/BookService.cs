@@ -27,7 +27,9 @@ namespace bookstore.Services.BookService
                 if (isbnExists)
                     return ServiceResult.CreateError("This ISBN already exists !!");
             }
-            
+            else
+                return ServiceResult.CreateError("The ISBN cannot be empty !!");
+
             Book newBook = _mapper.Map<Book>(addBookVM);
 
             if (addBookVM.CoverPic != null)
@@ -52,11 +54,11 @@ namespace bookstore.Services.BookService
                 await _unit.BookRepo.AddAsync(newBook);
                 await _unit.SaveAsync();
 
-                return ServiceResult.CreateSuccess();
+                return ServiceResult.CreateSuccess("The new book was added successfully !!");
             }
             catch (Exception ex)
             {
-                return ServiceResult.CreateError($"An error occurred while adding the book: {ex?.InnerException?.Message}");
+                return ServiceResult.CreateError($"An error occurred while adding the book: {ex.Message}");
             }
         }
 
@@ -65,7 +67,7 @@ namespace bookstore.Services.BookService
             try
             {
                 List<Book> bookList = await _unit.BookRepo.GetByPageAsync(pageNumber);
-                if (bookList.Count == 0)
+                if (bookList == null || bookList.Count == 0)
                     return ServiceResult<List<BookCardVM>>.CreateError("No Books were Found");
 
                 List<BookCardVM> bookCardVMs = _mapper.Map<List<BookCardVM>>(bookList);
@@ -99,7 +101,7 @@ namespace bookstore.Services.BookService
             }
             catch (Exception ex)
             {
-                return ServiceResult<BookDetailsVM>.CreateError($"An error occurred while fetching book details: {ex?.InnerException?.Message}");
+                return ServiceResult<BookDetailsVM>.CreateError($"An error occurred while fetching book details: {ex.Message}");
             }
         }
     }

@@ -53,9 +53,30 @@ namespace bookstore.Repositories.BorrowerRepository
                 .Take(pageSize)
                 .ToListAsync();
         }
+
+        public async Task<List<Borrower>> GetWithBooksByPageAsync(int pageNumber = 1)
+        {
+            int pageSize = 20;
+            return await _dbContext.Borrowers
+                .OrderBy(b => b.Name)
+                .Include(b=> b.Books)
+                    .ThenInclude(bb=> bb.Book)
+                .Skip((pageNumber - 1) * pageSize)
+                .Take(pageSize)
+                .ToListAsync();
+        }
+
+        public async Task<Borrower?> GetBorrowerWithBooksAsync(int id)
+        {
+            return await _dbContext.Borrowers
+                .Where(b => b.Id == id)
+                .Include(b => b.Books)
+                    .ThenInclude(bb => bb.Book)
+                .FirstOrDefaultAsync();
+        }
         public async Task<bool> IsDuplicateName(string name)
         {
-            return await _dbContext.Borrowers.AnyAsync(b => b.Name == name);
+            return await _dbContext.Borrowers.AnyAsync(b => b.Name.ToLower() == name.ToLower());
         }
     }
 }

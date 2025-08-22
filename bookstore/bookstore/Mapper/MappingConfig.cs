@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using bookstore.Models;
 using bookstore.ViewModels.Books;
+using bookstore.ViewModels.Borrowers;
 
 namespace bookstore.Mapper
 {

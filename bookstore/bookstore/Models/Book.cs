@@ -9,6 +9,7 @@ namespace bookstore.Models
         public int Id { get; set; }
         [Required]
         [StringLength(13)]
+        [RegularExpression(@"^\d{13}$", ErrorMessage = "ISBN must be exactly 13 digits.")]
         public string ISBN { get; set; }
         [Required]
         [StringLength(200)]

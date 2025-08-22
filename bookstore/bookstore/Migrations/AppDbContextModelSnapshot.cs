@@ -67,7 +67,7 @@ namespace bookstore.Migrations
                     b.HasIndex("ISBN")
                         .IsUnique();
 
-                    b.ToTable("Books");
+                    b.ToTable("Books", (string)null);
                 });
 
             modelBuilder.Entity("bookstore.Models.Borrower", b =>
@@ -88,7 +88,7 @@ namespace bookstore.Migrations
                     b.HasIndex("Name")
                         .IsUnique();
 
-                    b.ToTable("Borrowers");
+                    b.ToTable("Borrowers", (string)null);
                 });
 
             modelBuilder.Entity("bookstore.Models.BorrowerBooks", b =>
@@ -112,7 +112,7 @@ namespace bookstore.Migrations
 
                     b.HasIndex("BookId");
 
-                    b.ToTable("BorrowerBooks");
+                    b.ToTable("BorrowerBooks", (string)null);
                 });
 
             modelBuilder.Entity("bookstore.Models.BorrowerBooks", b =>

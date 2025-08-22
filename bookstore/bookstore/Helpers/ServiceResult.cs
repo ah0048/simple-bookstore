@@ -3,12 +3,13 @@
     public class ServiceResult
     {
         public bool Success { get; set; }
+        public string SuccessMessage { get; set; } = string.Empty;
         public string ErrorMessage { get; set; } = string.Empty;
         public List<string> ValidationErrors { get; set; } = new List<string>();
 
-        public static ServiceResult CreateSuccess()
+        public static ServiceResult CreateSuccess(string successMessage)
         {
-            return new ServiceResult { Success = true };
+            return new ServiceResult { Success = true, SuccessMessage = successMessage };
         }
 
         public static ServiceResult CreateError(string errorMessage)
