@@ -1,8 +1,94 @@
 ﻿@{
-    ViewData["Title"] = "Home Page";
+    ViewData["Title"] = "Digital Library - Home";
 }
 
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://learn.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+<div class="container-fluid">
+    <!-- Hero Section -->
+    <div class="row mb-5">
+        <div class="col-12">
+            <div class="hero-section text-center py-5 rounded">
+                <div class="container">
+                    <h1 class="display-3 fw-bold text-white mb-3">
+                        <i class="fas fa-book-reader me-3"></i>Digital Library System
+                    </h1>
+                    <p class="lead text-white mb-4">
+                        Manage your book collection with ease. Track borrowers, monitor inventory, and streamline your library operations.
+                    </p>
+                    <div class="d-flex justify-content-center gap-3 flex-wrap">
+                        <a asp-controller="Book" asp-action="All" class="btn btn-light btn-lg">
+                            <i class="fas fa-book me-2"></i>Browse Books
+                        </a>
+                        <a asp-controller="Borrower" asp-action="All" class="btn btn-outline-light btn-lg">
+                            <i class="fas fa-users me-2"></i>View Members
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Quick Actions -->
+    <div class="row mb-5">
+        <div class="col-12">
+            <h2 class="fw-bold text-primary mb-4 text-center">
+                <i class="fas fa-bolt me-2"></i>Quick Actions
+            </h2>
+        </div>
+        <div class="col-lg-3 col-md-6 mb-4">
+            <div class="card h-100 shadow-sm border-0 action-card">
+                <div class="card-body text-center p-4">
+                    <div class="action-icon mb-3">
+                        <i class="fas fa-book-medical"></i>
+                    </div>
+                    <h5 class="card-title">Add New Book</h5>
+                    <p class="card-text text-muted">Add a new book to your library</p>
+                    <a asp-controller="Book" asp-action="NewBook" class="btn btn-primary">
+                        <i class="fas fa-plus me-2"></i>Add Book
+                    </a>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-3 col-md-6 mb-4">
+            <div class="card h-100 shadow-sm border-0 action-card">
+                <div class="card-body text-center p-4">
+                    <div class="action-icon mb-3">
+                        <i class="fas fa-user-plus"></i>
+                    </div>
+                    <h5 class="card-title">Register Member</h5>
+                    <p class="card-text text-muted">Add a new member to your library</p>
+                    <a asp-controller="Borrower" asp-action="NewBorrower" class="btn btn-success">
+                        <i class="fas fa-user-check me-2"></i>Add Member
+                    </a>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-3 col-md-6 mb-4">
+            <div class="card h-100 shadow-sm border-0 action-card">
+                <div class="card-body text-center p-4">
+                    <div class="action-icon mb-3">
+                        <i class="fas fa-hand-holding-heart"></i>
+                    </div>
+                    <h5 class="card-title">Lend Book</h5>
+                    <p class="card-text text-muted">Process a book borrowing transaction</p>
+                    <a asp-controller="Borrower" asp-action="BorrowBookView" class="btn btn-info">
+                        <i class="fas fa-handshake me-2"></i>Lend Book
+                    </a>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-3 col-md-6 mb-4">
+            <div class="card h-100 shadow-sm border-0 action-card">
+                <div class="card-body text-center p-4">
+                    <div class="action-icon mb-3">
+                        <i class="fas fa-undo"></i>
+                    </div>
+                    <h5 class="card-title">Return Book</h5>
+                    <p class="card-text text-muted">Process a book return transaction</p>
+                    <a asp-controller="Borrower" asp-action="ReturnBookView" class="btn btn-warning">
+                        <i class="fas fa-check-circle me-2"></i>Return Book
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>

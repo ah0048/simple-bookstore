@@ -66,5 +66,17 @@ namespace bookstore.Repositories.BookRepository
         {
             return await _dbContext.Books.AnyAsync(b => b.ISBN == ISBN);
         }
+
+        public async Task<List<Book>> SearchBooksAsync(string searchTerm)
+        {
+            if (string.IsNullOrEmpty(searchTerm))
+                return new List<Book>();
+
+            return await _dbContext.Books
+                .Where(b => b.Title.ToLower().Contains(searchTerm.ToLower()) || b.Author.ToLower().Contains(searchTerm.ToLower()))
+                .OrderBy(b => b.Title)
+                .Take(10) // Limit results for autocomplete
+                .ToListAsync();
+        }
     }
 }

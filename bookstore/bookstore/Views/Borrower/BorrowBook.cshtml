@@ -1,0 +1,249 @@
+﻿@model bookstore.ViewModels.Borrowers.ActionBookVM
+
+@{
+    ViewData["Title"] = "Borrow Book";
+}
+
+<div class="container-fluid">
+    <!-- Header Section -->
+    <div class="row mb-4">
+        <div class="col-12">
+            <div class="d-flex justify-content-between align-items-center">
+                <div>
+                    <h2 class="fw-bold text-primary mb-0">
+                        <i class="fas fa-hand-holding-heart me-2"></i>Borrow Book
+                    </h2>
+                    <p class="text-muted mb-0">Lend a book to a library member</p>
+                </div>
+                <a asp-action="All" class="btn btn-outline-primary">
+                    <i class="fas fa-arrow-left me-2"></i>Back to Members
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Form Section -->
+    <div class="row justify-content-center">
+        <div class="col-lg-8">
+            <div class="card shadow-sm border-0">
+                <div class="card-header bg-gradient text-white">
+                    <h4 class="mb-0">
+                        <i class="fas fa-exchange-alt me-2"></i>Book Borrowing Form
+                    </h4>
+                </div>
+                <div class="card-body p-4">
+                    <form asp-action="BorrowBook">
+                        <div asp-validation-summary="ModelOnly" class="alert alert-danger" role="alert"></div>
+                        
+                        <div class="row">
+                            <div class="col-md-6 mb-4">
+                                <div class="card bg-light border-0 h-100">
+                                    <div class="card-body">
+                                        <h5 class="card-title text-primary">
+                                            <i class="fas fa-book me-2"></i>Select Book
+                                        </h5>
+                                        <div class="form-group position-relative">
+                                            <label class="form-label fw-semibold">Search Book</label>
+                                            <input type="text" id="bookSearch" class="form-control form-control-lg" 
+                                                   placeholder="Type book title or author..." />
+                                            <input asp-for="BookId" type="hidden" />
+                                            <span asp-validation-for="BookId" class="text-danger"></span>
+                                            <div id="bookSuggestions" class="suggestions-dropdown"></div>
+                                        </div>
+                                        <div class="mt-3">
+                                            <div id="selectedBook" class="selected-item" style="display: none;">
+                                                <div class="d-flex align-items-center p-3 bg-white rounded shadow-sm">
+                                                    <i class="fas fa-check-circle text-success me-3 fs-4"></i>
+                                                    <div>
+                                                        <h6 class="mb-0" id="selectedBookTitle"></h6>
+                                                        <small class="text-muted" id="selectedBookAuthor"></small>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="col-md-6 mb-4">
+                                <div class="card bg-light border-0 h-100">
+                                    <div class="card-body">
+                                        <h5 class="card-title text-primary">
+                                            <i class="fas fa-user me-2"></i>Select Member
+                                        </h5>
+                                        <div class="form-group position-relative">
+                                            <label class="form-label fw-semibold">Search Member</label>
+                                            <input type="text" id="borrowerSearch" class="form-control form-control-lg" 
+                                                   placeholder="Type member name..." />
+                                            <input asp-for="BorrowerId" type="hidden" />
+                                            <span asp-validation-for="BorrowerId" class="text-danger"></span>
+                                            <div id="borrowerSuggestions" class="suggestions-dropdown"></div>
+                                        </div>
+                                        <div class="mt-3">
+                                            <div id="selectedBorrower" class="selected-item" style="display: none;">
+                                                <div class="d-flex align-items-center p-3 bg-white rounded shadow-sm">
+                                                    <i class="fas fa-user-check text-success me-3 fs-4"></i>
+                                                    <div>
+                                                        <h6 class="mb-0" id="selectedBorrowerName"></h6>
+                                                        <small class="text-muted">Library Member</small>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="row mt-4">
+                            <div class="col-12">
+                                <div class="d-grid gap-2 d-md-flex justify-content-md-end">
+                                    <a asp-action="All" class="btn btn-outline-secondary btn-lg me-md-2">
+                                        <i class="fas fa-times me-2"></i>Cancel
+                                    </a>
+                                    <button type="submit" class="btn btn-success btn-lg">
+                                        <i class="fas fa-handshake me-2"></i>Lend Book
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+
+            <!-- Instructions Card -->
+            <div class="card shadow-sm border-0 mt-4">
+                <div class="card-header bg-light">
+                    <h5 class="mb-0">
+                        <i class="fas fa-info-circle me-2"></i>Instructions
+                    </h5>
+                </div>
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <ul class="list-unstyled">
+                                <li class="mb-2">
+                                    <i class="fas fa-search text-primary me-2"></i>
+                                    Search for books by title or author name
+                                </li>
+                                <li class="mb-2">
+                                    <i class="fas fa-users text-primary me-2"></i>
+                                    Search for members by their registered name
+                                </li>
+                            </ul>
+                        </div>
+                        <div class="col-md-6">
+                            <ul class="list-unstyled">
+                                <li class="mb-2">
+                                    <i class="fas fa-check text-success me-2"></i>
+                                    Ensure the book is available for borrowing
+                                </li>
+                                <li class="mb-2">
+                                    <i class="fas fa-calendar text-info me-2"></i>
+                                    Return date will be tracked automatically
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+    
+    <script>
+        $(document).ready(function() {
+            let bookSearchTimeout;
+            let borrowerSearchTimeout;
+            
+            // Book search autocomplete
+            $('#bookSearch').on('input', function() {
+                const term = $(this).val();
+                const suggestionsDiv = $('#bookSuggestions');
+                
+                clearTimeout(bookSearchTimeout);
+                
+                if (term.length < 2) {
+                    suggestionsDiv.hide();
+                    return;
+                }
+                
+                bookSearchTimeout = setTimeout(function() {
+                    $.get('@Url.Action("SearchBooks", "Borrower")', { term: term })
+                        .done(function(data) {
+                            suggestionsDiv.empty();
+                            
+                            if (data.length > 0) {
+                                data.forEach(function(item) {
+                                    const suggestionItem = $('<div class="suggestion-item"></div>')
+                                        .text(item.text)
+                                        .data('id', item.id)
+                                        .click(function() {
+                                            $('#bookSearch').val('');
+                                            $('#BookId').val(item.id);
+                                            $('#selectedBookTitle').text(item.text.split(' by ')[0]);
+                                            $('#selectedBookAuthor').text('by ' + item.text.split(' by ')[1]);
+                                            $('#selectedBook').show();
+                                            suggestionsDiv.hide();
+                                        });
+                                    suggestionsDiv.append(suggestionItem);
+                                });
+                                suggestionsDiv.show();
+                            } else {
+                                suggestionsDiv.hide();
+                            }
+                        });
+                }, 300);
+            });
+            
+            // Borrower search autocomplete
+            $('#borrowerSearch').on('input', function() {
+                const term = $(this).val();
+                const suggestionsDiv = $('#borrowerSuggestions');
+                
+                clearTimeout(borrowerSearchTimeout);
+                
+                if (term.length < 2) {
+                    suggestionsDiv.hide();
+                    return;
+                }
+                
+                borrowerSearchTimeout = setTimeout(function() {
+                    $.get('@Url.Action("SearchBorrowers", "Borrower")', { term: term })
+                        .done(function(data) {
+                            suggestionsDiv.empty();
+                            
+                            if (data.length > 0) {
+                                data.forEach(function(item) {
+                                    const suggestionItem = $('<div class="suggestion-item"></div>')
+                                        .text(item.text)
+                                        .data('id', item.id)
+                                        .click(function() {
+                                            $('#borrowerSearch').val('');
+                                            $('#BorrowerId').val(item.id);
+                                            $('#selectedBorrowerName').text(item.text);
+                                            $('#selectedBorrower').show();
+                                            suggestionsDiv.hide();
+                                        });
+                                    suggestionsDiv.append(suggestionItem);
+                                });
+                                suggestionsDiv.show();
+                            } else {
+                                suggestionsDiv.hide();
+                            }
+                        });
+                }, 300);
+            });
+            
+            // Hide suggestions when clicking outside
+            $(document).click(function(e) {
+                if (!$(e.target).closest('.form-group').length) {
+                    $('.suggestions-dropdown').hide();
+                }
+            });
+        });
+    </script>
+}

@@ -8,5 +8,6 @@ namespace bookstore.Services.BookService
         Task<ServiceResult> AddNewBook(AddBookVM addBookVM);
         Task<ServiceResult<List<BookCardVM>>> GetBookList(int pageNumber);
         Task<ServiceResult<BookDetailsVM>> GetBookDetails(int bookId);
+        Task<ServiceResult<List<BookCardVM>>> SearchBooks(string searchTerm);
     }
 }

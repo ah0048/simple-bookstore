@@ -10,5 +10,6 @@ namespace bookstore.Services.BorrowerService
         Task<ServiceResult> ReturnBook(ActionBookVM returnBookVM);
         Task<ServiceResult<List<BorrowerRowVM>>> GetBorrowerList(int pageNumber);
         Task<ServiceResult<BorrowerDetailsVM>> GetBorrowerDetails(int borrowerId);
+        Task<ServiceResult<List<BorrowerRowVM>>> SearchBorrowers(string searchTerm);
     }
 }

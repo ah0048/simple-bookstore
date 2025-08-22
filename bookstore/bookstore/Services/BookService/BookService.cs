@@ -31,6 +31,7 @@ namespace bookstore.Services.BookService
                 return ServiceResult.CreateError("The ISBN cannot be empty !!");
 
             Book newBook = _mapper.Map<Book>(addBookVM);
+            newBook.AvailableCopies = newBook.TotalCopies;
 
             if (addBookVM.CoverPic != null)
             {
@@ -102,6 +103,24 @@ namespace bookstore.Services.BookService
             catch (Exception ex)
             {
                 return ServiceResult<BookDetailsVM>.CreateError($"An error occurred while fetching book details: {ex.Message}");
+            }
+        }
+
+        public async Task<ServiceResult<List<BookCardVM>>> SearchBooks(string searchTerm)
+        {
+            try
+            {
+                if (string.IsNullOrWhiteSpace(searchTerm))
+                    return ServiceResult<List<BookCardVM>>.CreateSuccess(new List<BookCardVM>());
+
+                List<Book> books = await _unit.BookRepo.SearchBooksAsync(searchTerm);
+                List<BookCardVM> bookCardVMs = _mapper.Map<List<BookCardVM>>(books);
+                
+                return ServiceResult<List<BookCardVM>>.CreateSuccess(bookCardVMs);
+            }
+            catch (Exception ex)
+            {
+                return ServiceResult<List<BookCardVM>>.CreateError($"An error occurred while searching books: {ex.Message}");
             }
         }
     }

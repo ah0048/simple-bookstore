@@ -7,5 +7,6 @@ namespace bookstore.Repositories.BookRepository
         Task<List<Book>> GetByPageAsync(int pageNumber = 1);
         Task<bool> IsDuplicateISBN(string ISBN);
         Task<Book?> GetBookWithBorrowersAsync(int id);
+        Task<List<Book>> SearchBooksAsync(string searchTerm);
     }
 }

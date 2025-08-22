@@ -1,0 +1,196 @@
+﻿@model IEnumerable<bookstore.ViewModels.Books.BookCardVM>
+
+@{
+    ViewData["Title"] = "All Books";
+}
+
+<div class="container-fluid">
+    <!-- Header Section -->
+    <div class="row mb-4">
+        <div class="col-12">
+            <div class="d-flex justify-content-between align-items-center">
+                <div>
+                    <h2 class="fw-bold text-primary mb-0">
+                        <i class="fas fa-book me-2"></i>Book Library
+                    </h2>
+                    <p class="text-muted mb-0">Manage your book collection</p>
+                </div>
+                <a asp-action="NewBook" class="btn btn-primary btn-lg shadow-sm">
+                    <i class="fas fa-plus me-2"></i>Add New Book
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Search Section -->
+    <div class="row mb-4">
+        <div class="col-12">
+            <div class="card shadow-sm border-0">
+                <div class="card-body">
+                    <div class="row align-items-center">
+                        <div class="col-md-8">
+                            <div class="input-group">
+                                <span class="input-group-text bg-light border-end-0">
+                                    <i class="fas fa-search text-muted"></i>
+                                </span>
+                                <input type="text" id="bookSearch" class="form-control border-start-0 ps-0" 
+                                       placeholder="Search books by title or author..." />
+                            </div>
+                        </div>
+                        <div class="col-md-4 text-md-end mt-2 mt-md-0">
+                            <button id="clearSearch" class="btn btn-outline-secondary">
+                                <i class="fas fa-times me-1"></i>Clear
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Books Grid -->
+    <div class="row" id="booksContainer">
+        @foreach (var item in Model) {
+            <div class="col-lg-4 col-md-6 mb-4 book-item">
+                <div class="card h-100 shadow-sm border-0 book-card">
+                    <div class="position-relative overflow-hidden" style="height: 300px;">
+                        <img src="@item.CoverUrl" class="card-img-top h-100 w-100" 
+                             style="object-fit: cover; transition: transform 0.3s ease;" 
+                             alt="@item.Title cover" />
+                        <div class="overlay position-absolute top-0 start-0 w-100 h-100 d-flex align-items-center justify-content-center" 
+                             style="background: rgba(0,0,0,0.7); opacity: 0; transition: opacity 0.3s ease;">
+                            <a asp-action="BookDetails" asp-route-id="@item.Id" 
+                               class="btn btn-light btn-lg">
+                                <i class="fas fa-eye me-2"></i>View Details
+                            </a>
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        <h5 class="card-title text-primary fw-bold mb-2">@item.Title</h5>
+                        <p class="card-text text-muted mb-3">
+                            <i class="fas fa-user-edit me-1"></i>by @item.Author
+                        </p>
+                        <div class="d-flex justify-content-between align-items-center">
+                            <a asp-action="BookDetails" asp-route-id="@item.Id" 
+                               class="btn btn-primary btn-sm">
+                                <i class="fas fa-info-circle me-1"></i>Details
+                            </a>
+                            <small class="text-muted">ID: @item.Id</small>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+
+    <!-- No Results Message -->
+    <div id="noResults" class="text-center py-5" style="display: none;">
+        <div class="card border-0">
+            <div class="card-body">
+                <i class="fas fa-search text-muted mb-3" style="font-size: 4rem;"></i>
+                <h4 class="text-muted">No books found</h4>
+                <p class="text-muted">Try adjusting your search criteria</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script>
+        $(document).ready(function() {
+            let searchTimeout;
+            const originalBooks = $('.book-item').clone();
+            
+            $('#bookSearch').on('input', function() {
+                const searchTerm = $(this).val().trim();
+                
+                clearTimeout(searchTimeout);
+                
+                if (searchTerm.length === 0) {
+                    showAllBooks();
+                    return;
+                }
+                
+                if (searchTerm.length < 2) {
+                    return;
+                }
+                
+                searchTimeout = setTimeout(function() {
+                    searchBooks(searchTerm);
+                }, 300);
+            });
+            
+            $('#clearSearch').click(function() {
+                $('#bookSearch').val('');
+                showAllBooks();
+            });
+            
+            function searchBooks(searchTerm) {
+                $.get('@Url.Action("SearchBooksForList", "Book")', { term: searchTerm })
+                    .done(function(response) {
+                        if (response.success && response.data) {
+                            displayBooks(response.data);
+                        } else {
+                            displayBooks([]);
+                        }
+                    })
+                    .fail(function() {
+                        console.error('Search failed');
+                        displayBooks([]);
+                    });
+            }
+            
+            function displayBooks(books) {
+                const container = $('#booksContainer');
+                container.empty();
+                
+                if (books.length === 0) {
+                    $('#noResults').show();
+                    return;
+                }
+                
+                $('#noResults').hide();
+                
+                books.forEach(function(book) {
+                    const bookCard = `
+                        <div class="col-lg-4 col-md-6 mb-4 book-item">
+                            <div class="card h-100 shadow-sm border-0 book-card">
+                                <div class="position-relative overflow-hidden" style="height: 300px;">
+                                    <img src="${book.coverUrl}" class="card-img-top h-100 w-100" 
+                                         style="object-fit: cover; transition: transform 0.3s ease;" 
+                                         alt="${book.title} cover" />
+                                    <div class="overlay position-absolute top-0 start-0 w-100 h-100 d-flex align-items-center justify-content-center" 
+                                         style="background: rgba(0,0,0,0.7); opacity: 0; transition: opacity 0.3s ease;">
+                                        <a href="@Url.Action("BookDetails", "Book")/${book.id}" 
+                                           class="btn btn-light btn-lg">
+                                            <i class="fas fa-eye me-2"></i>View Details
+                                        </a>
+                                    </div>
+                                </div>
+                                <div class="card-body">
+                                    <h5 class="card-title text-primary fw-bold mb-2">${book.title}</h5>
+                                    <p class="card-text text-muted mb-3">
+                                        <i class="fas fa-user-edit me-1"></i>by ${book.author}
+                                    </p>
+                                    <div class="d-flex justify-content-between align-items-center">
+                                        <a href="@Url.Action("BookDetails", "Book")/${book.id}" 
+                                           class="btn btn-primary btn-sm">
+                                            <i class="fas fa-info-circle me-1"></i>Details
+                                        </a>
+                                        <small class="text-muted">ID: ${book.id}</small>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    `;
+                    container.append(bookCard);
+                });
+            }
+            
+            function showAllBooks() {
+                $('#booksContainer').empty().append(originalBooks.clone());
+                $('#noResults').hide();
+            }
+        });
+    </script>
+}

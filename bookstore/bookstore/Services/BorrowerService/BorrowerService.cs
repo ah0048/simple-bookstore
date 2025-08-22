@@ -183,6 +183,7 @@ namespace bookstore.Services.BorrowerService
                     Books = borrower.Books
                                 .Select(bb => new BorrowerBookVM
                                 {
+                                    Id = bb.BookId,
                                     Author = bb.Book.Author,
                                     Title = bb.Book.Title,
                                     CoverUrl = bb.Book.CoverUrl,
@@ -198,6 +199,33 @@ namespace bookstore.Services.BorrowerService
             catch (Exception ex)
             {
                 return ServiceResult<BorrowerDetailsVM>.CreateError($"An error occurred while fetching borrower data: {ex.Message}");
+            }
+        }
+
+        public async Task<ServiceResult<List<BorrowerRowVM>>> SearchBorrowers(string searchTerm)
+        {
+            try
+            {
+                if (string.IsNullOrWhiteSpace(searchTerm) || searchTerm.Length < 2)
+                    return ServiceResult<List<BorrowerRowVM>>.CreateSuccess(new List<BorrowerRowVM>());
+
+                List<Borrower> borrowers = await _unit.BorrowerRepo.SearchBorrowersAsync(searchTerm);
+                List<BorrowerRowVM> borrowerRowVMs = new List<BorrowerRowVM>();
+
+                foreach (var borrower in borrowers)
+                {
+                    borrowerRowVMs.Add(new BorrowerRowVM
+                    {
+                        Id = borrower.Id,
+                        Name = borrower.Name
+                    });
+                }
+
+                return ServiceResult<List<BorrowerRowVM>>.CreateSuccess(borrowerRowVMs);
+            }
+            catch (Exception ex)
+            {
+                return ServiceResult<List<BorrowerRowVM>>.CreateError($"An error occurred while searching borrowers: {ex.Message}");
             }
         }
     }

@@ -78,5 +78,17 @@ namespace bookstore.Repositories.BorrowerRepository
         {
             return await _dbContext.Borrowers.AnyAsync(b => b.Name.ToLower() == name.ToLower());
         }
+
+        public async Task<List<Borrower>> SearchBorrowersAsync(string searchTerm)
+        {
+            if (string.IsNullOrEmpty(searchTerm))
+                return new List<Borrower>();
+
+            return await _dbContext.Borrowers
+                .Where(b => b.Name.ToLower().Contains(searchTerm.ToLower()))
+                .OrderBy(b => b.Name)
+                .Take(10) // Limit results for autocomplete
+                .ToListAsync();
+        }
     }
 }

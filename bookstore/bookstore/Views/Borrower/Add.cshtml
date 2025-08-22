@@ -1,0 +1,114 @@
+﻿@model bookstore.ViewModels.Borrowers.AddBorrowerVM
+
+@{
+    ViewData["Title"] = "Add New Member";
+}
+
+<div class="container-fluid">
+    <!-- Header Section -->
+    <div class="row mb-4">
+        <div class="col-12">
+            <div class="d-flex justify-content-between align-items-center">
+                <div>
+                    <h2 class="fw-bold text-primary mb-0">
+                        <i class="fas fa-user-plus me-2"></i>Add New Member
+                    </h2>
+                    <p class="text-muted mb-0">Register a new library member</p>
+                </div>
+                <a asp-action="All" class="btn btn-outline-primary">
+                    <i class="fas fa-arrow-left me-2"></i>Back to Members
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Form Section -->
+    <div class="row justify-content-center">
+        <div class="col-lg-6">
+            <div class="card shadow-sm border-0">
+                <div class="card-header bg-gradient text-white">
+                    <h4 class="mb-0">
+                        <i class="fas fa-id-card me-2"></i>Member Information
+                    </h4>
+                </div>
+                <div class="card-body p-4">
+                    <form asp-action="AddNewBorrower">
+                        <div asp-validation-summary="ModelOnly" class="alert alert-danger" role="alert"></div>
+                        
+                        <div class="text-center mb-4">
+                            <div class="avatar-placeholder mx-auto mb-3">
+                                <i class="fas fa-user"></i>
+                            </div>
+                            <p class="text-muted">New Library Member</p>
+                        </div>
+
+                        <div class="mb-4">
+                            <label asp-for="Name" class="form-label fw-semibold">
+                                <i class="fas fa-signature me-2"></i>Full Name
+                            </label>
+                            <input asp-for="Name" class="form-control form-control-lg" 
+                                   placeholder="Enter member's full name" 
+                                   autocomplete="name" />
+                            <div class="form-text">
+                                <i class="fas fa-info-circle me-1"></i>
+                                Enter the complete name as it should appear on the library card
+                            </div>
+                            <span asp-validation-for="Name" class="text-danger"></span>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-12">
+                                <div class="d-grid gap-2 d-md-flex justify-content-md-end">
+                                    <a asp-action="All" class="btn btn-outline-secondary btn-lg me-md-2">
+                                        <i class="fas fa-times me-2"></i>Cancel
+                                    </a>
+                                    <button type="submit" class="btn btn-primary btn-lg">
+                                        <i class="fas fa-user-check me-2"></i>Register Member
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+
+            <!-- Member Benefits Card -->
+            <div class="card shadow-sm border-0 mt-4">
+                <div class="card-header bg-light">
+                    <h5 class="mb-0">
+                        <i class="fas fa-star me-2"></i>Member Benefits
+                    </h5>
+                </div>
+                <div class="card-body">
+                    <div class="row text-center">
+                        <div class="col-4">
+                            <div class="p-3">
+                                <i class="fas fa-book text-primary mb-2" style="font-size: 2rem;"></i>
+                                <h6>Unlimited Borrowing</h6>
+                                <small class="text-muted">Borrow multiple books</small>
+                            </div>
+                        </div>
+                        <div class="col-4">
+                            <div class="p-3">
+                                <i class="fas fa-clock text-success mb-2" style="font-size: 2rem;"></i>
+                                <h6>Extended Periods</h6>
+                                <small class="text-muted">Flexible return dates</small>
+                            </div>
+                        </div>
+                        <div class="col-4">
+                            <div class="p-3">
+                                <i class="fas fa-search text-info mb-2" style="font-size: 2rem;"></i>
+                                <h6>Easy Tracking</h6>
+                                <small class="text-muted">Track all borrowed books</small>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

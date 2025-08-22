@@ -27,7 +27,7 @@ namespace bookstore.Services.PhotoService
                 var uploadParams = new ImageUploadParams
                 {
                     File = new FileDescription(file.FileName, stream),
-                    Transformation = new Transformation().Height(500).Width(500).Crop("fill").Gravity("center")
+                    Transformation = new Transformation().Height(600).Width(400).Crop("fill").Gravity("center")
                 };
                 uploadResult = await cloudinary.UploadAsync(uploadParams);
             }

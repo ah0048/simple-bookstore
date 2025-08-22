@@ -12,6 +12,9 @@ namespace bookstore.Mapper
             CreateMap<AddBookVM, Book>().ReverseMap();
             CreateMap<BookCardVM, Book>().ReverseMap();
             CreateMap<BookDetailsVM, Book>().ReverseMap();
+
+            CreateMap<BorrowerRowVM, Borrower>().ReverseMap();
+
         }
     }
 }

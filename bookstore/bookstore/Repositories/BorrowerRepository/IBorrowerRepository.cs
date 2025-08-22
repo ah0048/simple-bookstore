@@ -8,5 +8,6 @@ namespace bookstore.Repositories.BorrowerRepository
         Task<List<Borrower>> GetWithBooksByPageAsync(int pageNumber = 1);
         Task<Borrower?> GetBorrowerWithBooksAsync(int id);
         Task<bool> IsDuplicateName(string name);
+        Task<List<Borrower>> SearchBorrowersAsync(string searchTerm);
     }
 }

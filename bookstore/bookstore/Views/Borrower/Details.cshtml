@@ -1,0 +1,166 @@
+﻿@model bookstore.ViewModels.Borrowers.BorrowerDetailsVM
+
+@{
+    ViewData["Title"] = "Borrower Details";
+}
+
+<div class="container-fluid">
+    <!-- Header Section -->
+    <div class="row mb-4">
+        <div class="col-12">
+            <div class="d-flex justify-content-between align-items-center">
+                <div>
+                    <h2 class="fw-bold text-primary mb-0">
+                        <i class="fas fa-user-circle me-2"></i>Borrower Profile
+                    </h2>
+                    <p class="text-muted mb-0">Member information and borrowing history</p>
+                </div>
+                <a asp-action="All" class="btn btn-outline-primary">
+                    <i class="fas fa-arrow-left me-2"></i>Back to Members
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <!-- Borrower Information -->
+        <div class="col-lg-4 mb-4">
+            <div class="card shadow-sm border-0 h-100">
+                <div class="card-header bg-gradient text-white text-center">
+                    <div class="avatar-circle mx-auto mb-3" style="width: 80px; height: 80px; font-size: 2.5rem;">
+                        <i class="fas fa-user"></i>
+                    </div>
+                    <h3 class="mb-1">@Model.Name</h3>
+                    <p class="mb-0 opacity-75">Member ID: @Model.Id</p>
+                </div>
+                <div class="card-body">
+                    <div class="row text-center mb-4">
+                        <div class="col-12">
+                            <div class="p-3 bg-light rounded">
+                                <h3 class="text-primary mb-1">@(Model.Books?.Count ?? 0)</h3>
+                                <small class="text-muted">Books Currently Borrowed</small>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Status Badge -->
+                    @if (Model.Books != null && Model.Books.Any())
+                    {
+                        <div class="text-center mb-3">
+                            <span class="badge bg-warning fs-6">
+                                <i class="fas fa-book me-1"></i>Active Borrower
+                            </span>
+                        </div>
+                    }
+                    else
+                    {
+                        <div class="text-center mb-3">
+                            <span class="badge bg-success fs-6">
+                                <i class="fas fa-check-circle me-1"></i>No Outstanding Books
+                            </span>
+                        </div>
+                    }
+
+                    <!-- Quick Actions -->
+                    <div class="d-grid gap-2">
+                        <a asp-action="BorrowBookView" asp-route-id="@Model.Id" class="btn btn-success">
+                            <i class="fas fa-plus me-2"></i>Borrow Book
+                        </a>
+                        @if (Model.Books != null && Model.Books.Any())
+                        {
+                            <a asp-action="ReturnBookView" asp-route-id="@Model.Id" class="btn btn-warning">
+                                <i class="fas fa-undo me-2"></i>Return Book
+                            </a>
+                        }
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Borrowed Books -->
+        <div class="col-lg-8">
+            <div class="card shadow-sm border-0">
+                <div class="card-header bg-gradient text-white">
+                    <div class="d-flex justify-content-between align-items-center">
+                        <h4 class="mb-0">
+                            <i class="fas fa-book-open me-2"></i>Borrowed Books
+                        </h4>
+                        <span class="badge bg-light text-dark fs-6">
+                            @(Model.Books?.Count ?? 0) Books
+                        </span>
+                    </div>
+                </div>
+                <div class="card-body">
+                    @if (Model.Books != null && Model.Books.Any())
+                    {
+                        <div class="row">
+                            @foreach (var book in Model.Books)
+                            {
+                                <div class="col-lg-6 mb-4">
+                                    <div class="card border-0 bg-light h-100">
+                                        <div class="row g-0 h-100">
+                                            <div class="col-4">
+                                                <img src="@book.CoverUrl" class="img-fluid h-100 w-100" 
+                                                     style="object-fit: cover; border-radius: 10px 0 0 10px;" alt="@book.Title cover" />
+                                            </div>
+                                            <div class="col-8">
+                                                <div class="card-body h-100 d-flex flex-column">
+                                                    <h6 class="card-title text-primary fw-bold mb-1">@book.Title</h6>
+                                                    <p class="text-muted mb-2 small">
+                                                        <i class="fas fa-user-edit me-1"></i>by @book.Author
+                                                    </p>
+                                                    
+                                                    <div class="mt-auto">
+                                                        <div class="mb-2">
+                                                            <span class="badge bg-primary">
+                                                                @book.Copies copies
+                                                            </span>
+                                                        </div>
+                                                        
+                                                        @if (book.LastBorrowDate != null)
+                                                        {
+                                                            <small class="text-muted d-block">
+                                                                <i class="fas fa-calendar-alt me-1"></i>
+                                                                Borrowed: @book.LastBorrowDate.ToString("MMM dd, yyyy")
+                                                            </small>
+                                                        }
+                                                        
+                                                        @if (book.LastReturnDate.HasValue)
+                                                        {
+                                                            <small class="text-muted d-block">
+                                                                <i class="fas fa-calendar-check me-1"></i>
+                                                                Last Return: @book.LastReturnDate.Value.ToString("MMM dd, yyyy")
+                                                            </small>
+                                                        }
+                                                        
+                                                        <div class="mt-2">
+                                                            <a asp-controller="Book" asp-action="BookDetails" asp-route-id="@book.Id" 
+                                                               class="btn btn-outline-primary btn-sm">
+                                                                <i class="fas fa-eye me-1"></i>View Book
+                                                            </a>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            }
+                        </div>
+                    }
+                    else
+                    {
+                        <div class="text-center py-5">
+                            <i class="fas fa-book text-muted mb-3" style="font-size: 4rem;"></i>
+                            <h4 class="text-muted">No Books Currently Borrowed</h4>
+                            <p class="text-muted mb-4">This member hasn't borrowed any books yet</p>
+                            <a asp-action="BorrowBookView" asp-route-id="@Model.Id" class="btn btn-primary">
+                                <i class="fas fa-plus me-2"></i>Lend First Book
+                            </a>
+                        </div>
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

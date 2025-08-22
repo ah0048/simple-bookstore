@@ -10,7 +10,7 @@ namespace bookstore.ViewModels.Books
         public string CoverUrl { get; set; }
         public int TotalCopies { get; set; }
         public int AvailableCopies { get; set; }
-        public ICollection<BookBorrowerVM> BookBorrowers { get; set; }
+        public ICollection<BookBorrowerVM> BookBorrowers { get; set; } = new List<BookBorrowerVM>();
     }
 
     public class BookBorrowerVM
