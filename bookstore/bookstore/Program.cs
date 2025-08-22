@@ -5,6 +5,7 @@ using bookstore.Repositories.BookRepository;
 using bookstore.Repositories.BorrowerBooksRepository;
 using bookstore.Repositories.BorrowerRepository;
 using bookstore.Services.BookService;
+using bookstore.Services.BorrowerService;
 using bookstore.Services.PhotoService;
 using bookstore.UnitOfWorks;
 using Microsoft.EntityFrameworkCore;
@@ -37,6 +38,7 @@ namespace bookstore
             // Service layer DI
             builder.Services.AddScoped<IPhotoService, PhotoService>();
             builder.Services.AddScoped<IBookService, BookService>();
+            builder.Services.AddScoped<IBorrowerService, BorrowerService>();
 
             var app = builder.Build();
 
