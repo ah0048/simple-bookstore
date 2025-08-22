@@ -41,7 +41,7 @@ namespace bookstore.Repositories.BookRepository
 
         public async Task<List<Book>> GetByPageAsync(int pageNumber = 1)
         {
-            int pageSize = 20;
+            int pageSize = 3;
             return await _dbContext.Books
                 .OrderBy(b => b.Title)
                 .Skip((pageNumber - 1) * pageSize)

@@ -56,7 +56,7 @@ namespace bookstore.Repositories.BorrowerRepository
 
         public async Task<List<Borrower>> GetWithBooksByPageAsync(int pageNumber = 1)
         {
-            int pageSize = 20;
+            int pageSize = 3;
             return await _dbContext.Borrowers
                 .OrderBy(b => b.Name)
                 .Include(b=> b.Books)

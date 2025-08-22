@@ -16,7 +16,10 @@ namespace bookstore.Controllers
         {
             var result = await _bookService.GetBookList(pageNumber);
             if (result.Success)
+            {
+                ViewBag.page = pageNumber;
                 return View("All", result.Data);
+            }
 
             TempData["ErrorMessage"] = result.ErrorMessage;
             return View("Error");

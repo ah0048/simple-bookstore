@@ -4,6 +4,7 @@ using bookstore.Models;
 using bookstore.Services.PhotoService;
 using bookstore.UnitOfWorks;
 using bookstore.ViewModels.Books;
+using bookstore.ViewModels.Borrowers;
 
 namespace bookstore.Services.BookService
 {
@@ -68,8 +69,10 @@ namespace bookstore.Services.BookService
             try
             {
                 List<Book> bookList = await _unit.BookRepo.GetByPageAsync(pageNumber);
-                if (bookList == null || bookList.Count == 0)
+                if (bookList == null)
                     return ServiceResult<List<BookCardVM>>.CreateError("No Books were Found");
+                if (!bookList.Any())
+                    return ServiceResult<List<BookCardVM>>.CreateSuccess(new List<BookCardVM>());
 
                 List<BookCardVM> bookCardVMs = _mapper.Map<List<BookCardVM>>(bookList);
                 return ServiceResult<List<BookCardVM>>.CreateSuccess(bookCardVMs);

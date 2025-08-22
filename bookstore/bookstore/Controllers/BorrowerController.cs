@@ -49,7 +49,10 @@ namespace bookstore.Controllers
         {
             var result = await _borrowerService.GetBorrowerList(pageNumber);
             if (result.Success)
+            {
+                ViewBag.page = pageNumber;
                 return View("All", result.Data);
+            }
 
             TempData["ErrorMessage"] = result.ErrorMessage;
             return View("Error");
@@ -160,9 +163,6 @@ namespace bookstore.Controllers
                 var borrowersData = result.Data.Select(b => new {
                     id = b.Id,
                     name = b.Name,
-                    // Fix for CS0019: Adjusting the null-coalescing operator to ensure type compatibility
-                    // Replace the problematic line in the SearchBorrowersForList method with the following:
-
                     books = b.Books?.Select(book => new { title = book.Title }).ToList() ?? new List<object>().Select(_ => new { title = string.Empty }).ToList()
                 });
                 return Json(new { success = true, data = borrowersData });

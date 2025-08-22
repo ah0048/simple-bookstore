@@ -2,6 +2,8 @@
 
 @{
     ViewData["Title"] = "All Books";
+    int page = ViewBag.page ?? 1;
+    bool hasItems = Model.Count() > 0;
 }
 
 <div class="container-fluid">
@@ -79,6 +81,20 @@
                 </div>
             </div>
         }
+    </div>
+
+    <div class="container m-5">
+        <a asp-action="All"
+           asp-route-pageNumber="@(page - 1)"
+           class="btn btn-dark @(page <= 1 ? "disabled" : "")">
+            Prev Page
+        </a>
+
+        <a asp-action="All"
+           asp-route-pageNumber="@(page + 1)"
+           class="btn btn-dark @(hasItems && Model.Count() == 3 ? "" : "disabled")">
+            Next Page
+        </a>
     </div>
 
     <!-- No Results Message -->

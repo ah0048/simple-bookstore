@@ -142,8 +142,10 @@ namespace bookstore.Services.BorrowerService
             try
             {
                 List<Borrower> borrowers = await _unit.BorrowerRepo.GetWithBooksByPageAsync(pageNumber);
-                if (borrowers == null || borrowers.Count == 0)
+                if (borrowers == null)
                     return ServiceResult<List<BorrowerRowVM>>.CreateError("No Borrowers were Found");
+                if (!borrowers.Any())
+                    return ServiceResult<List<BorrowerRowVM>>.CreateSuccess(new List<BorrowerRowVM>());
 
                 List<BorrowerRowVM> borrowerRowVMs = new List<BorrowerRowVM>();
                 foreach (var borrower in borrowers)
@@ -217,7 +219,13 @@ namespace bookstore.Services.BorrowerService
                     borrowerRowVMs.Add(new BorrowerRowVM
                     {
                         Id = borrower.Id,
-                        Name = borrower.Name
+                        Name = borrower.Name,
+                        Books = borrower.Books
+                                .Select(bb => new SimpleBookVM
+                                {
+                                    Title = bb.Book.Title,
+                                })
+                                .ToList()
                     });
                 }
 
