@@ -174,11 +174,16 @@ body {
 
 .book-cover,
 .book-card .card-img-top,
-.book-card img {
+.book-card img,
+.book-card-img {
   height: 300px;
   width: 100%;
   object-fit: cover;
   transition: all 0.3s ease;
+}
+
+.book-cover {
+  height: 300px;
 }
 
 .book-card .card-body {

@@ -53,12 +53,10 @@
         @foreach (var item in Model) {
             <div class="col-lg-4 col-md-6 mb-4 book-item">
                 <div class="card h-100 shadow-sm border-0 book-card">
-                    <div class="position-relative overflow-hidden" style="height: 300px;">
-                        <img src="@item.CoverUrl" class="card-img-top h-100 w-100" 
-                             style="object-fit: cover; transition: transform 0.3s ease;" 
+                    <div class="position-relative overflow-hidden book-cover">
+                        <img src="@item.CoverUrl" class="card-img-top book-card-img" 
                              alt="@item.Title cover" />
-                        <div class="overlay position-absolute top-0 start-0 w-100 h-100 d-flex align-items-center justify-content-center" 
-                             style="background: rgba(0,0,0,0.7); opacity: 0; transition: opacity 0.3s ease;">
+                        <div class="overlay position-absolute top-0 start-0 w-100 h-100 d-flex align-items-center justify-content-center">
                             <a asp-action="BookDetails" asp-route-id="@item.Id" 
                                class="btn btn-light btn-lg">
                                 <i class="fas fa-eye me-2"></i>View Details
@@ -155,12 +153,10 @@
                     const bookCard = `
                         <div class="col-lg-4 col-md-6 mb-4 book-item">
                             <div class="card h-100 shadow-sm border-0 book-card">
-                                <div class="position-relative overflow-hidden" style="height: 300px;">
-                                    <img src="${book.coverUrl}" class="card-img-top h-100 w-100" 
-                                         style="object-fit: cover; transition: transform 0.3s ease;" 
+                                <div class="position-relative overflow-hidden book-cover">
+                                    <img src="${book.coverUrl}" class="card-img-top book-card-img" 
                                          alt="${book.title} cover" />
-                                    <div class="overlay position-absolute top-0 start-0 w-100 h-100 d-flex align-items-center justify-content-center" 
-                                         style="background: rgba(0,0,0,0.7); opacity: 0; transition: opacity 0.3s ease;">
+                                    <div class="overlay position-absolute top-0 start-0 w-100 h-100 d-flex align-items-center justify-content-center">
                                         <a href="@Url.Action("BookDetails", "Book")/${book.id}" 
                                            class="btn btn-light btn-lg">
                                             <i class="fas fa-eye me-2"></i>View Details
