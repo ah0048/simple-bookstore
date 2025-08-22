@@ -53,6 +53,15 @@ namespace bookstore.Repositories.BookRepository
             return await _dbContext.Books.FindAsync(id);
         }
 
+        public async Task<Book?> GetBookWithBorrowersAsync(int id)
+        {
+            return await _dbContext.Books
+                .Where(b => b.Id == id)
+                .Include(b => b.Borrowers)
+                    .ThenInclude(bb => bb.Borrower)
+                .FirstOrDefaultAsync();
+        }
+
         public async Task<bool> IsDuplicateISBN(string ISBN)
         {
             return await _dbContext.Books.AnyAsync(b => b.ISBN == ISBN);

@@ -1,12 +1,10 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using bookstore.CustomValidations;
 using System.ComponentModel.DataAnnotations;
 
-namespace bookstore.Models
+namespace bookstore.ViewModels.Books
 {
-    [Index(nameof(ISBN), IsUnique = true)]
-    public class Book
+    public class AddBookVM
     {
-        public int Id { get; set; }
         [Required]
         [StringLength(13)]
         public string ISBN { get; set; }
@@ -17,15 +15,10 @@ namespace bookstore.Models
         [StringLength(300)]
         public string Title { get; set; }
         [Required]
-        public string CoverUrl { get; set; }
-        [Required]
-        public string CoverPublicId { get; set; }
+        [AllowedImageExtensions(".jpg,.jpeg,.png,.gif,.bmp,.webp", 5)]
+        public IFormFile CoverPic { get; set; }
         [Required]
         [Range(1, int.MaxValue)]
         public int TotalCopies { get; set; }
-        [Range(0, int.MaxValue)]
-        public int AvailableCopies { get; set; }
-        public virtual ICollection<BorrowerBooks> Borrowers { get; set; }
-
     }
 }

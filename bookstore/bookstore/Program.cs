@@ -1,8 +1,11 @@
 using bookstore.Helpers;
+using bookstore.Mapper;
 using bookstore.Models;
 using bookstore.Repositories.BookRepository;
 using bookstore.Repositories.BorrowerBooksRepository;
 using bookstore.Repositories.BorrowerRepository;
+using bookstore.Services.BookService;
+using bookstore.Services.PhotoService;
 using bookstore.UnitOfWorks;
 using Microsoft.EntityFrameworkCore;
 using System;
@@ -23,13 +26,17 @@ namespace bookstore
     options => options.UseLazyLoadingProxies().UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"))
             );
 
-            // Repository layer injection
+            builder.Services.AddAutoMapper(cfg => cfg.AddProfile<MappingConfig>());
+
+            // Repository layer DI
             builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
             builder.Services.AddScoped<IBookRepository, BookRepository>();
             builder.Services.AddScoped<IBorrowerRepository, BorrowerRepository>();
             builder.Services.AddScoped<IBorrowerBooksRepository, BorrowerBooksRepository>();
 
-
+            // Service layer DI
+            builder.Services.AddScoped<IPhotoService, PhotoService>();
+            builder.Services.AddScoped<IBookService, BookService>();
 
             var app = builder.Build();
 

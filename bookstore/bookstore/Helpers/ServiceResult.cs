@@ -34,4 +34,43 @@
             };
         }
     }
+
+    public class ServiceResult<T>: ServiceResult
+    {
+        public T? Data { get; set; }
+        public static ServiceResult<T> CreateSuccess(T data)
+        {
+            return new ServiceResult<T>
+            {
+                Success = true,
+                Data = data
+            };
+        }
+
+        public new static ServiceResult<T> CreateError(string errorMessage)
+        {
+            return new ServiceResult<T>
+            {
+                Success = false,
+                ErrorMessage = errorMessage
+            };
+        }
+        public new static ServiceResult<T> CreateValidationError(string validationError)
+        {
+            return new ServiceResult<T>
+            {
+                Success = false,
+                ValidationErrors = new List<string> { validationError }
+            };
+        }
+
+        public new static ServiceResult<T> CreateValidationErrors(List<string> validationErrors)
+        {
+            return new ServiceResult<T>
+            {
+                Success = false,
+                ValidationErrors = validationErrors
+            };
+        }
+    }
 }
