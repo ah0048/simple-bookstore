@@ -104,7 +104,6 @@ namespace bookstore.Controllers
             return View("ReturnBook", actionBookVM);
         }
 
-        // API endpoints for autocomplete
         [HttpGet]
         public async Task<IActionResult> SearchBooks(string term)
         {
@@ -150,7 +149,6 @@ namespace bookstore.Controllers
             }
         }
 
-        // Search action for borrowers list view
         [HttpGet]
         public async Task<IActionResult> SearchBorrowersForList(string term)
         {

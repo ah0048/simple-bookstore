@@ -75,7 +75,7 @@ namespace bookstore.Repositories.BookRepository
             return await _dbContext.Books
                 .Where(b => b.Title.ToLower().Contains(searchTerm.ToLower()) || b.Author.ToLower().Contains(searchTerm.ToLower()))
                 .OrderBy(b => b.Title)
-                .Take(10) // Limit results for autocomplete
+                .Take(10)
                 .ToListAsync();
         }
     }

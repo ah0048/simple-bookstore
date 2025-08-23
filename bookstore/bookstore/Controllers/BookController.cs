@@ -63,7 +63,6 @@ namespace bookstore.Controllers
             return View("Error");
         }
 
-        // Search action for books list view
         [HttpGet]
         public async Task<IActionResult> SearchBooksForList(string term)
         {

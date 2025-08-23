@@ -159,7 +159,6 @@
             let bookSearchTimeout;
             let borrowerSearchTimeout;
             
-            // Book search autocomplete
             $('#bookSearch').on('input', function() {
                 const term = $(this).val();
                 const suggestionsDiv = $('#bookSuggestions');
@@ -199,7 +198,6 @@
                 }, 300);
             });
             
-            // Borrower search autocomplete
             $('#borrowerSearch').on('input', function() {
                 const term = $(this).val();
                 const suggestionsDiv = $('#borrowerSuggestions');
@@ -238,7 +236,6 @@
                 }, 300);
             });
             
-            // Hide suggestions when clicking outside
             $(document).click(function(e) {
                 if (!$(e.target).closest('.form-group').length) {
                     $('.suggestions-dropdown').hide();

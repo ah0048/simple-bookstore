@@ -87,7 +87,7 @@ namespace bookstore.Repositories.BorrowerRepository
             return await _dbContext.Borrowers
                 .Where(b => b.Name.ToLower().Contains(searchTerm.ToLower()))
                 .OrderBy(b => b.Name)
-                .Take(10) // Limit results for autocomplete
+                .Take(10)
                 .ToListAsync();
         }
     }
